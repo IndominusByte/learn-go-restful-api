@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  learn-go-restful-api-backend-go-production:
+    container_name: ${BACKEND_CONTAINER}
+    hostname: ${BACKEND_HOST}
+    image: "${BACKEND_IMAGE}:${BACKEND_IMAGE_TAG}"
+    restart: always
+    environment:
+      BACKEND_STAGE: ${BACKEND_STAGE}
+    ports:
+      - "8080:8080"
+    # networks:
+    #   - learn-go-restful-api-environment-production
+
+# networks:
+#   learn-go-restful-api-environment-production:
+#     external: true
+#     name: learn-go-restful-api-environment-production
