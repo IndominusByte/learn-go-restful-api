@@ -5,4 +5,4 @@ run: build
 	bin/http
 
 watch:
-	reflex -s -r "\.(go|json|html)$$" make run
+	reflex -s -r "\.(go|json|html)$$" --decoration=none make run

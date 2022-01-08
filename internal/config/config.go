@@ -2,23 +2,34 @@ package config
 
 import (
 	"fmt"
-	"net/http"
+	"os"
 
-	_ "github.com/IndominusByte/learn-go-restful-api/docs"
-	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
-	httpSwagger "github.com/swaggo/http-swagger"
+	"gopkg.in/yaml.v2"
 )
 
-func New() {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello World bro!")
-	})
+func New() (*Config, error) {
+	filename := fmt.Sprintf("./conf/app.%s.yaml", os.Getenv("BACKEND_STAGE"))
+	f, err := os.Open(filename)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
 
-	r.Get("/swagger/*", httpSwagger.Handler(
-		httpSwagger.URL("doc.json"), //The url pointing to API definition
-	))
-	http.ListenAndServe(":8080", r)
+	var cfg Config
+	err = yaml.NewDecoder(f).Decode(&cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	if loadGsmErr := cfg.loadFromGsm(); loadGsmErr != nil {
+		return nil, loadGsmErr
+	}
+
+	return &cfg, nil
+}
+
+type Config struct {
+	Server   Server   `yaml:"server"`
+	Database Database `yaml:"database"`
+	Redis    Redis    `yaml:"redis"`
 }

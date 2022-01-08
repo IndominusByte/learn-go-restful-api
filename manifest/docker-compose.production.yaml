@@ -9,10 +9,10 @@ services:
       BACKEND_STAGE: ${BACKEND_STAGE}
     ports:
       - "8080:8080"
-    # networks:
-    #   - learn-go-restful-api-environment-production
+    networks:
+      - learn-go-restful-api-environment-production
 
-# networks:
-#   learn-go-restful-api-environment-production:
-#     external: true
-#     name: learn-go-restful-api-environment-production
+networks:
+  learn-go-restful-api-environment-production:
+    external: true
+    name: learn-go-restful-api-environment-production
