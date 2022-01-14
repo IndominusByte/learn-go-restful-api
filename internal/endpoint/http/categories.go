@@ -4,7 +4,8 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
+	"github.com/IndominusByte/learn-go-restful-api/internal/constant"
+	categoriesentity "github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
 	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
 	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/validation"
 	"github.com/go-chi/chi/v5"
@@ -19,16 +20,16 @@ func AddCategories(r *chi.Mux, uc categoriesUsecaseIface) {
 		r.Post("/", func(rw http.ResponseWriter, r *http.Request) {
 			if err := r.ParseMultipartForm(32 << 20); err != nil {
 				response.WriteJSONResponse(rw, 422, nil, map[string]interface{}{
-					"_body": "Invalid input type.",
+					"_body": constant.FailedParseBody,
 				})
 				return
 			}
 
-			var p categories.FormCreateSchema
+			var p categoriesentity.FormCreateSchema
 
 			if err := validation.FormDecode(&p, r.Form); err != nil {
 				response.WriteJSONResponse(rw, 422, nil, map[string]interface{}{
-					"_body": "Invalid input type.",
+					"_body": constant.FailedParseBody,
 				})
 				return
 			}

@@ -3,7 +3,7 @@ module github.com/IndominusByte/learn-go-restful-api
 go 1.17
 
 require (
-	github.com/IndominusByte/magicimage v0.2.0 // indirect
+	github.com/IndominusByte/magicimage v0.3.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
@@ -22,6 +22,7 @@ require (
 	github.com/gomodule/redigo v1.8.8 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/schema v1.2.0 // indirect
+	github.com/jmoiron/sqlx v1.3.4 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/lib/pq v1.10.4 // indirect
@@ -42,5 +43,6 @@ require (
 	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/tools v0.1.8 // indirect
+	gopkg.in/guregu/null.v4 v4.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

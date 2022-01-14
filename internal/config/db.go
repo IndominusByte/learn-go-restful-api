@@ -1,16 +1,16 @@
 package config
 
 import (
-	"database/sql"
 	"strconv"
 	"time"
 
 	"github.com/gomodule/redigo/redis"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
-func DBConnect(cfg *Config) (*sql.DB, error) {
-	db, err := sql.Open(cfg.Database.Driver, cfg.Database.FollowerDsn)
+func DBConnect(cfg *Config) (*sqlx.DB, error) {
+	db, err := sqlx.Open(cfg.Database.Driver, cfg.Database.FollowerDsn)
 	if err != nil {
 		return nil, err
 	}
