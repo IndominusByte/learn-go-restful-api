@@ -2,11 +2,11 @@ package categories
 
 import (
 	"context"
-	"fmt"
 	"mime/multipart"
 	"net/http"
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
+	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/validation"
 	"github.com/IndominusByte/magicimage"
 	"github.com/gorilla/schema"
 )
@@ -39,7 +39,10 @@ func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.Respons
 		return
 	}
 
-	fmt.Println(payload)
+	if err := validation.StructValidate(payload); err != nil {
+		response.WriteJSONResponse(rw, 422, nil, err)
+		return
+	}
 
 	response.WriteJSONResponse(rw, 201, nil, map[string]interface{}{
 		"_app": []string{

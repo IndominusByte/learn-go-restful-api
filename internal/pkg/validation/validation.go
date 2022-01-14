@@ -52,9 +52,7 @@ func StructValidate(body interface{}) map[string]interface{} {
 		return result
 	}
 
-	return map[string]interface{}{
-		"_body": "Invalid input type.",
-	}
+	return nil
 }
 
 func MergeMap(from, to map[string]interface{}) {
