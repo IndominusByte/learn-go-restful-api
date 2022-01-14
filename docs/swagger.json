@@ -78,7 +78,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
                 }
               }
             }
@@ -91,9 +100,9 @@
         "description": "",
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schema/CategoryCreateUpdate"
+                "$ref": "#/components/schema/BodyCreateCategory"
               }
             }
           },
@@ -111,7 +120,9 @@
                   "status_code": 201,
                   "status": true,
                   "message": "Request Created.",
-                  "detail_message": "Successfully create category.",
+                  "detail_message": {
+                    "_app": "Successfully create category."
+                  },
                   "results": null
                 }
               }
@@ -128,7 +139,9 @@
                   "status_code": 400,
                   "status": false,
                   "message": "Validation Failed.",
-                  "detail_message": "The name has already been taken.",
+                  "detail_message": {
+                    "_app": "The name has already been taken."
+                  },
                   "results": null
                 }
               }
@@ -139,7 +152,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
                 }
               }
             }
@@ -201,7 +223,9 @@
                   "status_code": 404,
                   "status": false,
                   "message": "Resource Not Found.",
-                  "detail_message": "Category not found!",
+                  "detail_message": {
+                    "_app": "Category not found."
+                  },
                   "results": null
                 }
               }
@@ -212,7 +236,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
                 }
               }
             }
@@ -246,9 +279,9 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schema/CategoryCreateUpdate"
+                "$ref": "#/components/schema/BodyUpdateCategory"
               }
             }
           },
@@ -266,7 +299,9 @@
                   "status_code": 200,
                   "status": true,
                   "message": "Request Success.",
-                  "detail_message": "Successfully update the category.",
+                  "detail_message": {
+                    "_app": "Successfully update the category."
+                  },
                   "results": null
                 }
               }
@@ -283,7 +318,9 @@
                   "status_code": 400,
                   "status": false,
                   "message": "Validation Failed.",
-                  "detail_message": "The name has already been taken.",
+                  "detail_message": {
+                    "_app": "The name has already been taken."
+                  },
                   "results": null
                 }
               }
@@ -300,7 +337,9 @@
                   "status_code": 404,
                   "status": false,
                   "message": "Resource Not Found.",
-                  "detail_message": "Category not found!",
+                  "detail_message": {
+                    "_app": "Category not found."
+                  },
                   "results": null
                 }
               }
@@ -311,7 +350,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
                 }
               }
             }
@@ -360,7 +408,9 @@
                   "status_code": 200,
                   "status": true,
                   "message": "Request Success.",
-                  "detail_message": "Successfully delete the category.",
+                  "detail_message": {
+                    "_app": "Successfully delete the category."
+                  },
                   "results": null
                 }
               }
@@ -377,7 +427,9 @@
                   "status_code": 404,
                   "status": false,
                   "message": "Resource Not Found.",
-                  "detail_message": "Category not found!",
+                  "detail_message": {
+                    "_app": "Category not found."
+                  },
                   "results": null
                 }
               }
@@ -388,7 +440,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
                 }
               }
             }
@@ -443,16 +504,39 @@
           }
         }
       },
-      "CategoryCreateUpdate": {
-        "title": "CategoryCreateUpdate",
+      "BodyCreateCategory": {
+        "title": "BodyCreateCategory",
+        "type": "object",
+        "required": ["name", "icon"],
+        "properties": {
+          "name": {
+            "title": "name",
+            "minLength": 3,
+            "maxLength": 100,
+            "type": "string"
+          },
+          "icon": {
+            "title": "icon",
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "BodyUpdateCategory": {
+        "title": "BodyUpdateCategory",
         "type": "object",
         "required": ["name"],
         "properties": {
           "name": {
             "title": "name",
-            "maxLength": 100,
             "minLength": 3,
+            "maxLength": 100,
             "type": "string"
+          },
+          "icon": {
+            "title": "icon",
+            "type": "string",
+            "format": "binary"
           }
         }
       }

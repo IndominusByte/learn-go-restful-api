@@ -5,7 +5,9 @@ type Server struct {
 }
 
 type HTTP struct {
-	Address string `yaml:"address"`
+	Address      string `yaml:"address"`
+	ReadTimeout  string `yaml:"read_timeout"`
+	WriteTimeout string `yaml:"write_timeout"`
 }
 
 type Database struct {
