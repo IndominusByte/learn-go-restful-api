@@ -2,6 +2,8 @@ package categories
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
 	"mime/multipart"
 	"net/http"
 
@@ -21,10 +23,10 @@ func NewCategoriesUsecase(categoryRepo categoriesRepo) *CategoriesUsecase {
 	}
 }
 
-func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.ResponseWriter, file, payload interface{}) {
-	f, p := file.(*multipart.Form), payload.(*categoriesentity.FormCreateSchema)
+func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.ResponseWriter,
+	file *multipart.Form, payload *categoriesentity.FormCreateSchema) {
 
-	magic := magicimage.New(f)
+	magic := magicimage.New(file)
 	if err := magic.ValidateSingleImage("icon"); err != nil {
 		response.WriteJSONResponse(rw, 422, nil, map[string]interface{}{
 			"icon": err.Error(),
@@ -32,12 +34,14 @@ func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.Respons
 		return
 	}
 
-	if err := validation.StructValidate(p); err != nil {
+	if err := validation.StructValidate(payload); err != nil {
 		response.WriteJSONResponse(rw, 422, nil, err)
 		return
 	}
 
-	if _, err := uc.categoriesRepo.GetCategoryByName(ctx, p); err == nil {
+	if t, err := uc.categoriesRepo.GetCategoryByName(ctx, payload); err == nil {
+		b, _ := json.Marshal(t)
+		fmt.Println(string(b))
 		response.WriteJSONResponse(rw, 400, nil, map[string]interface{}{
 			"_app": "The name has already been taken.",
 		})
@@ -45,12 +49,24 @@ func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.Respons
 	}
 
 	magic.SaveImages(100, 100, "static/icon-categories", true)
-	p.Icon = magic.FileNames[0]
+	payload.Icon = magic.FileNames[0]
 
 	// save into database
-	uc.categoriesRepo.InsertCategory(ctx, p)
+	uc.categoriesRepo.InsertCategory(ctx, payload)
 
 	response.WriteJSONResponse(rw, 201, nil, map[string]interface{}{
 		"_app": "Successfully create category.",
 	})
+}
+
+func (uc *CategoriesUsecase) GetAllCategory(ctx context.Context, rw http.ResponseWriter,
+	payload *categoriesentity.QueryParamAllCategorySchema) {
+
+	if err := validation.StructValidate(payload); err != nil {
+		response.WriteJSONResponse(rw, 422, nil, err)
+		return
+	}
+
+	fmt.Println(payload)
+
 }

@@ -72,3 +72,7 @@ func (r *RepoCategories) InsertCategory(ctx context.Context, payload *categories
 
 	return id
 }
+
+func (r *RepoCategories) GetAllCategoryPaginate(ctx context.Context, payload *categoriesentity.QueryParamAllCategorySchema) {
+
+}

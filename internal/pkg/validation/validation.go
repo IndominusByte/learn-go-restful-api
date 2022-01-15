@@ -12,7 +12,7 @@ import (
 // meta-data about structs, and an instance can be shared safely.
 var decoder = schema.NewDecoder()
 
-func FormDecode(dst interface{}, src map[string][]string) error {
+func ParseRequest(dst interface{}, src map[string][]string) error {
 	return decoder.Decode(dst, src)
 }
 

@@ -2,6 +2,7 @@ package endpoint_http
 
 import (
 	"context"
+	"mime/multipart"
 	"net/http"
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/constant"
@@ -12,7 +13,8 @@ import (
 )
 
 type categoriesUsecaseIface interface {
-	CreateCategory(ctx context.Context, rw http.ResponseWriter, file, payload interface{})
+	CreateCategory(ctx context.Context, rw http.ResponseWriter, file *multipart.Form, payload *categoriesentity.FormCreateSchema)
+	GetAllCategory(ctx context.Context, rw http.ResponseWriter, payload *categoriesentity.QueryParamAllCategorySchema)
 }
 
 func AddCategories(r *chi.Mux, uc categoriesUsecaseIface) {
@@ -27,7 +29,7 @@ func AddCategories(r *chi.Mux, uc categoriesUsecaseIface) {
 
 			var p categoriesentity.FormCreateSchema
 
-			if err := validation.FormDecode(&p, r.Form); err != nil {
+			if err := validation.ParseRequest(&p, r.Form); err != nil {
 				response.WriteJSONResponse(rw, 422, nil, map[string]interface{}{
 					"_body": constant.FailedParseBody,
 				})
@@ -35,6 +37,19 @@ func AddCategories(r *chi.Mux, uc categoriesUsecaseIface) {
 			}
 
 			uc.CreateCategory(r.Context(), rw, r.MultipartForm, &p)
+		})
+
+		r.Get("/", func(rw http.ResponseWriter, r *http.Request) {
+			var p categoriesentity.QueryParamAllCategorySchema
+
+			if err := validation.ParseRequest(&p, r.URL.Query()); err != nil {
+				response.WriteJSONResponse(rw, 422, nil, map[string]interface{}{
+					"_body": constant.FailedParseBody,
+				})
+				return
+			}
+
+			uc.GetAllCategory(r.Context(), rw, &p)
 		})
 	})
 }

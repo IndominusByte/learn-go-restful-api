@@ -7,6 +7,12 @@ type FormCreateSchema struct {
 	Icon string `db:"icon"`
 }
 
+type QueryParamAllCategorySchema struct {
+	Page    int    `schema:"page" validate:"required,lte=1"`
+	PerPage int    `schema:"per_page" validate:"required,lte=1"`
+	Q       string `schema:"q"`
+}
+
 type Category struct {
 	Id          int      `json:"id" db:"id"`
 	Name        string   `json:"name" db:"name"`
