@@ -29,7 +29,7 @@ func (cfg *Config) loadFromGsm() error {
 	}
 
 	// decode data
-	cdn := &encryption.Credentials{Key: data.EncryptionKey}
+	cdn := &encryption.Credentials{Key: []byte(data.EncryptionKey)}
 
 	pgtalkuser, pgtalkusererr := cdn.Decrypt(data.PgTalkUser)
 	if pgtalkusererr != nil {
