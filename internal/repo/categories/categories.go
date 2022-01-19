@@ -23,9 +23,11 @@ var queries = map[string]string{
 		FROM (SELECT categories.id AS id, categories.name AS name, categories.icon AS icon, categories.reference_id AS reference_id FROM categories) AS categories
 	`,
 	"getCategoryByName": `SELECT id AS categories_id, name AS categories_name, icon AS categories_icon FROM public.categories WHERE name = :name LIMIT 1`,
+	"getCategoryById":   `SELECT id AS categories_id, name AS categories_name, icon AS categories_icon FROM public.categories WHERE id = :id LIMIT 1`,
 }
 var execs = map[string]string{
 	"insertCategory": `INSERT INTO public.categories(name, icon) VALUES (:name, :icon) RETURNING id`,
+	"deleteCategory": `DELETE FROM categories WHERE categories.id = :id`,
 }
 
 func New(db *sqlx.DB, redis *redis.Pool) (*RepoCategories, error) {
@@ -63,19 +65,43 @@ func (r *RepoCategories) Validate() error {
 	return nil
 }
 
-func (r *RepoCategories) GetCategoryByName(ctx context.Context, payload *categoriesentity.FormCreateSchema) (*categoriesentity.Category, error) {
+func (r *RepoCategories) GetCategoryByName(ctx context.Context, payload *categoriesentity.FormCreateUpdateSchema) (*categoriesentity.Category, error) {
 	var t categoriesentity.Category
 	stmt, _ := r.db.PrepareNamedContext(ctx, r.queries["getCategoryByName"])
 
 	return &t, stmt.GetContext(ctx, &t, payload)
 }
 
-func (r *RepoCategories) InsertCategory(ctx context.Context, payload *categoriesentity.FormCreateSchema) int {
+func (r *RepoCategories) InsertCategory(ctx context.Context, payload *categoriesentity.FormCreateUpdateSchema) int {
 	var id int
 	stmt, _ := r.db.PrepareNamedContext(ctx, r.execs["insertCategory"])
 	stmt.QueryRowxContext(ctx, payload).Scan(&id)
 
 	return id
+}
+
+func (r *RepoCategories) UpdateCategory(ctx context.Context, payload *categoriesentity.FormCreateUpdateSchema) error {
+	query := "UPDATE categories SET name=:name"
+	if len(payload.Icon) > 0 {
+		query += ", icon=:icon"
+	}
+	query += " WHERE categories.id = :id"
+
+	stmt, _ := r.db.PrepareNamedContext(ctx, query)
+	_, err := stmt.ExecContext(ctx, payload)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *RepoCategories) DeleteCategoryById(ctx context.Context, categoryId int) error {
+	stmt, _ := r.db.PrepareNamedContext(ctx, r.execs["deleteCategory"])
+	_, err := stmt.ExecContext(ctx, categoriesentity.CategoryId{Id: categoryId})
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (r *RepoCategories) GetAllCategoryPaginate(ctx context.Context,
@@ -113,4 +139,11 @@ func (r *RepoCategories) GetAllCategoryPaginate(ctx context.Context,
 	results.IterPages = paginate.IterPages()
 
 	return &results, nil
+}
+
+func (r *RepoCategories) GetCategoryById(ctx context.Context, categoryId int) (*categoriesentity.Category, error) {
+	var t categoriesentity.Category
+	stmt, _ := r.db.PrepareNamedContext(ctx, r.queries["getCategoryById"])
+
+	return &t, stmt.GetContext(ctx, &t, categoriesentity.CategoryId{Id: categoryId})
 }

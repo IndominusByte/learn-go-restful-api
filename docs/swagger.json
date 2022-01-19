@@ -98,6 +98,17 @@
         "tags": ["categories"],
         "summary": "Create Category",
         "description": "",
+        "parameters": [
+          {
+            "name": "access_token_cookie",
+            "in": "cookie",
+            "required": false,
+            "schema": {
+              "title": "access_token_cookie",
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {

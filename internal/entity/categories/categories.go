@@ -2,9 +2,10 @@ package categories
 
 import "gopkg.in/guregu/null.v4"
 
-type FormCreateSchema struct {
+type FormCreateUpdateSchema struct {
+	Id   int    `schema:"-" db:"id"` // for update
 	Name string `schema:"name" validate:"required,min=3,max=100" db:"name"`
-	Icon string `db:"icon"`
+	Icon string `schema:"-" db:"icon"`
 }
 
 type QueryParamAllCategorySchema struct {
@@ -20,6 +21,10 @@ type Category struct {
 	Name        string   `json:"categories_name" db:"categories_name"`
 	Icon        string   `json:"categories_icon" db:"categories_icon"`
 	ReferenceId null.Int `json:"categories_reference_id" db:"categories_reference_id"`
+}
+
+type CategoryId struct {
+	Id int `db:"id"`
 }
 
 type CategoryPaginate struct {
