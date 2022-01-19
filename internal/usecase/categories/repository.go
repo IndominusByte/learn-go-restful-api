@@ -7,6 +7,7 @@ import (
 )
 
 type categoriesRepo interface {
-	GetCategoryByName(ctx context.Context, payload *categoriesentity.FormCreateSchema) (categoriesentity.Category, error)
+	GetCategoryByName(ctx context.Context, payload *categoriesentity.FormCreateSchema) (*categoriesentity.Category, error)
 	InsertCategory(ctx context.Context, payload *categoriesentity.FormCreateSchema) int
+	GetAllCategoryPaginate(ctx context.Context, payload *categoriesentity.QueryParamAllCategorySchema) (*categoriesentity.CategoryPaginate, error)
 }

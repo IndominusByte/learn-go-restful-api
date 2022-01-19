@@ -2,8 +2,6 @@ package categories
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"mime/multipart"
 	"net/http"
 
@@ -39,9 +37,7 @@ func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.Respons
 		return
 	}
 
-	if t, err := uc.categoriesRepo.GetCategoryByName(ctx, payload); err == nil {
-		b, _ := json.Marshal(t)
-		fmt.Println(string(b))
+	if _, err := uc.categoriesRepo.GetCategoryByName(ctx, payload); err == nil {
 		response.WriteJSONResponse(rw, 400, nil, map[string]interface{}{
 			"_app": "The name has already been taken.",
 		})
@@ -67,6 +63,7 @@ func (uc *CategoriesUsecase) GetAllCategory(ctx context.Context, rw http.Respons
 		return
 	}
 
-	fmt.Println(payload)
+	t, _ := uc.categoriesRepo.GetAllCategoryPaginate(ctx, payload)
 
+	response.WriteJSONResponse(rw, 200, t, nil)
 }
