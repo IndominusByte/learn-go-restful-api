@@ -98,17 +98,6 @@
         "tags": ["categories"],
         "summary": "Create Category",
         "description": "",
-        "parameters": [
-          {
-            "name": "access_token_cookie",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "title": "access_token_cookie",
-              "type": "string"
-            }
-          }
-        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -180,7 +169,7 @@
         },
         "security": [
           {
-            "AuthJWTCookieAccess": []
+            "AccessToken": []
           }
         ]
       }
@@ -277,15 +266,6 @@
             },
             "name": "category_id",
             "in": "path"
-          },
-          {
-            "name": "access_token_cookie",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "title": "access_token_cookie",
-              "type": "string"
-            }
           }
         ],
         "requestBody": {
@@ -378,7 +358,7 @@
         },
         "security": [
           {
-            "AuthJWTCookieAccess": []
+            "AccessToken": []
           }
         ]
       },
@@ -396,15 +376,6 @@
             },
             "name": "category_id",
             "in": "path"
-          },
-          {
-            "name": "access_token_cookie",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "title": "access_token_cookie",
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -468,7 +439,211 @@
         },
         "security": [
           {
-            "AuthJWTCookieAccess": []
+            "AccessToken": []
+          }
+        ]
+      }
+    },
+    "/token/get-token": {
+      "get": {
+        "tags": ["tokens"],
+        "summary": "Get Access & Refresh Token",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": null,
+                  "results": {
+                    "access_token": "string",
+                    "refresh_token": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/token/access-revoke": {
+      "delete": {
+        "tags": ["tokens"],
+        "summary": "Access Token Revoked",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": {
+                    "_app": "An access token has revoked."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "AccessToken": []
+          }
+        ]
+      }
+    },
+    "/token/refresh-token": {
+      "post": {
+        "tags": ["tokens"],
+        "summary": "Refresh Token",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": null,
+                  "results": {
+                    "access_token": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "RefreshToken": []
+          }
+        ]
+      }
+    },
+    "/token/refresh-revoke": {
+      "delete": {
+        "tags": ["tokens"],
+        "summary": "Refresh Token Revoked",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": {
+                    "_app": "An refresh token has revoked."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "RefreshToken": []
           }
         ]
       }
@@ -476,15 +651,15 @@
   },
   "components": {
     "securitySchemes": {
-      "AuthJWTCookieAccess": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-CSRF-TOKEN"
+      "AccessToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       },
-      "AuthJWTCookieRefresh": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-CSRF-TOKEN"
+      "RefreshToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     },
     "schema": {

@@ -6,13 +6,11 @@ import (
 
 	categoriesentity "github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
 	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/pagination"
-	"github.com/gomodule/redigo/redis"
 	"github.com/jmoiron/sqlx"
 )
 
 type RepoCategories struct {
 	db      *sqlx.DB
-	redis   *redis.Pool
 	queries map[string]string
 	execs   map[string]string
 }
@@ -30,10 +28,9 @@ var execs = map[string]string{
 	"deleteCategory": `DELETE FROM categories WHERE categories.id = :id`,
 }
 
-func New(db *sqlx.DB, redis *redis.Pool) (*RepoCategories, error) {
+func New(db *sqlx.DB) (*RepoCategories, error) {
 	rp := &RepoCategories{
 		db:      db,
-		redis:   redis,
 		queries: queries,
 		execs:   execs,
 	}

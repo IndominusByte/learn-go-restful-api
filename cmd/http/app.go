@@ -12,6 +12,8 @@ import (
 	categoriesrepo "github.com/IndominusByte/learn-go-restful-api/internal/repo/categories"
 	categoriesusecase "github.com/IndominusByte/learn-go-restful-api/internal/usecase/categories"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/jwtauth"
+
 	"github.com/go-chi/chi/v5/middleware"
 	httpSwagger "github.com/swaggo/http-swagger"
 )
@@ -62,6 +64,10 @@ func startApp(cfg *config.Config) (err error) {
 	log.Println("Redis connected")
 
 	r := chi.NewRouter()
+	// jwt
+	TokenAuthHS256 := jwtauth.New("HS256", []byte("secret"), nil)
+	r.Use(jwtauth.Verifier(TokenAuthHS256))
+
 	// middleware stack
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
@@ -75,12 +81,14 @@ func startApp(cfg *config.Config) (err error) {
 	r.Handle("/static/*", http.StripPrefix(strings.TrimRight("/static/", "/"), fileServer))
 
 	// you can insert your behaviors here
-	categoriesRepo, err := categoriesrepo.New(db, redisCli)
+	categoriesRepo, err := categoriesrepo.New(db)
 	if err != nil {
 		return err
 	}
 	categoriesUsecase := categoriesusecase.NewCategoriesUsecase(categoriesRepo)
-	endpoint_http.AddCategories(r, categoriesUsecase)
+	endpoint_http.AddCategories(r, categoriesUsecase, redisCli)
+	// add token
+	endpoint_http.AddToken(r, redisCli)
 
 	return startServer(r, cfg)
 }
