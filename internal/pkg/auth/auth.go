@@ -27,6 +27,22 @@ type AccessToken struct {
 	Fresh bool   `json:"fresh"`
 }
 
+func DecodeRSA(public, private string) (interface{}, interface{}) {
+	privateKeyBlock, _ := pem.Decode([]byte(private))
+	privateKey, err := x509.ParsePKCS1PrivateKey(privateKeyBlock.Bytes)
+	if err != nil {
+		panic(err)
+	}
+
+	publicKeyBlock, _ := pem.Decode([]byte(public))
+	publicKey, err := x509.ParsePKIXPublicKey(publicKeyBlock.Bytes)
+	if err != nil {
+		panic(err)
+	}
+
+	return publicKey, privateKey
+}
+
 func NewJwtTokenHS(secret []byte, alg string, claims ...map[string]interface{}) string {
 	token := jwt.New()
 	if len(claims) > 0 {
@@ -42,20 +58,9 @@ func NewJwtTokenHS(secret []byte, alg string, claims ...map[string]interface{}) 
 }
 
 func NewJwtTokenRSA(public, private, alg string, claims map[string]interface{}) string {
-	privateKeyBlock, _ := pem.Decode([]byte(private))
-	privateKey, err := x509.ParsePKCS1PrivateKey(privateKeyBlock.Bytes)
-	if err != nil {
-		panic(err)
-	}
-
-	publicKeyBlock, _ := pem.Decode([]byte(public))
-	publicKey, err := x509.ParsePKIXPublicKey(publicKeyBlock.Bytes)
-	if err != nil {
-		panic(err)
-	}
+	publicKey, privateKey := DecodeRSA(public, private)
 
 	tokenAuth := jwtauth.New(alg, privateKey, publicKey)
-
 	_, tokenString, err := tokenAuth.Encode(claims)
 	if err != nil {
 		panic(err)

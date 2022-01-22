@@ -1,5 +1,7 @@
 package config
 
+import "time"
+
 type Server struct {
 	HTTP HTTP `yaml:"http"`
 }
@@ -8,6 +10,17 @@ type HTTP struct {
 	Address      string `yaml:"address"`
 	ReadTimeout  string `yaml:"read_timeout"`
 	WriteTimeout string `yaml:"write_timeout"`
+}
+
+type JWT struct {
+	Algorithm      string `yaml:"algorithm"`
+	PublicKey      string `yaml:"public_key"`
+	PrivateKey     string `yaml:"private_key"`
+	AccessExpired  string `yaml:"access_expired"`
+	RefreshExpired string `yaml:"refresh_expired"`
+	AccessExpires  time.Duration
+	RefreshExpires time.Duration
+	SecretKey      string
 }
 
 type Database struct {
