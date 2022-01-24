@@ -10,6 +10,7 @@ import (
 	"github.com/IndominusByte/learn-go-restful-api/internal/config"
 	endpoint_http "github.com/IndominusByte/learn-go-restful-api/internal/endpoint/http"
 	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/auth"
+	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/mail"
 	categoriesrepo "github.com/IndominusByte/learn-go-restful-api/internal/repo/categories"
 	categoriesusecase "github.com/IndominusByte/learn-go-restful-api/internal/usecase/categories"
 	"github.com/go-chi/chi/v5"
@@ -84,6 +85,14 @@ func startApp(cfg *config.Config) (err error) {
 	fileServer := http.FileServer(FileSystem{http.Dir("static")})
 	r.Handle("/static/*", http.StripPrefix(strings.TrimRight("/static/", "/"), fileServer))
 
+	// setup email
+	m := mail.Mail{
+		Server:   cfg.Mail.Server,
+		Port:     cfg.Mail.Port,
+		Username: cfg.Mail.Username,
+		Password: cfg.Mail.Password,
+	}
+
 	// you can insert your behaviors here
 	categoriesRepo, err := categoriesrepo.New(db)
 	if err != nil {
@@ -93,6 +102,8 @@ func startApp(cfg *config.Config) (err error) {
 	endpoint_http.AddCategories(r, categoriesUsecase, redisCli)
 	// add token
 	endpoint_http.AddToken(r, redisCli, cfg)
+	// send email
+	endpoint_http.AddEmail(r, cfg, &m)
 
 	return startServer(r, cfg)
 }

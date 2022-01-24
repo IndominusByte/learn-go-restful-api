@@ -27,4 +27,7 @@ jwt:
   access_expired: 15m
   refresh_expired: 24h
 
-# mail:
+mail:
+  server: "smtp.gmail.com"
+  port: 465
+  username: "karmayadnyanadhi@gmail.com"

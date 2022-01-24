@@ -647,6 +647,53 @@
           }
         ]
       }
+    },
+    "/email/send": {
+      "post": {
+        "tags": ["email"],
+        "summary": "Send Email Notification",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Request Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 200,
+                  "status": true,
+                  "message": "Request Success.",
+                  "detail_message": {
+                    "_app": "Email notification has sended."
+                  },
+                  "results": null
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schema/ExampleResponse"
+                },
+                "example": {
+                  "status_code": 422,
+                  "status": false,
+                  "message": "Unprocessable Entity.",
+                  "detail_message": {
+                    "_body": "Invalid input type."
+                  },
+                  "data": null
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
