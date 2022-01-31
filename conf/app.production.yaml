@@ -22,8 +22,8 @@ redis:
 
 jwt:
   algorithm: "RS256"
-  public_key: "enc/public.pem"
-  private_key: "enc/private.pem"
+  public_key: "/app/enc/public.pem"
+  private_key: "/app/enc/private.pem"
   access_expired: 15m
   refresh_expired: 24h
 

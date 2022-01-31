@@ -17,7 +17,7 @@ type gsmData struct {
 }
 
 func (cfg *Config) loadFromGsm() error {
-	filename := fmt.Sprintf("./conf/data.%s.json", os.Getenv("BACKEND_STAGE"))
+	filename := fmt.Sprintf("/app/conf/data.%s.json", os.Getenv("BACKEND_STAGE"))
 	f, err := os.Open(filename)
 	if err != nil {
 		return err

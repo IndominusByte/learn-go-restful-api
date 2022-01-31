@@ -17,7 +17,7 @@ type Config struct {
 }
 
 func New() (*Config, error) {
-	filename := fmt.Sprintf("./conf/app.%s.yaml", os.Getenv("BACKEND_STAGE"))
+	filename := fmt.Sprintf("/app/conf/app.%s.yaml", os.Getenv("BACKEND_STAGE"))
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
