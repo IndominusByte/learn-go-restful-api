@@ -15,7 +15,7 @@ func AddEmail(r *chi.Mux, cfg *config.Config, m *mail.Mail) {
 		r.Post("/send", func(rw http.ResponseWriter, r *http.Request) {
 			q := queue.NewQueue(func(val interface{}) {
 				m.SendEmail(
-					[]string{"static/icon-categories/default.jpg"},
+					[]string{"/app/static/icon-categories/default.jpg"},
 					[]string{"nyomanpradipta120@gmail.com", "pradipta.nyoman@tokopedia.com", "mangokky@gmail.com", "paulusbsimanjuntak@gmail.com"},
 					"Activated User",
 					"dont-reply@example.com",

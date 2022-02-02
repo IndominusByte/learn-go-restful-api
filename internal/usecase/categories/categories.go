@@ -45,7 +45,7 @@ func (uc *CategoriesUsecase) CreateCategory(ctx context.Context, rw http.Respons
 		return
 	}
 
-	magic.SaveImages(100, 100, "static/icon-categories", true)
+	magic.SaveImages(100, 100, "/app/static/icon-categories", true)
 	payload.Icon = magic.FileNames[0]
 
 	// save into database
@@ -114,8 +114,8 @@ func (uc *CategoriesUsecase) UpdateCategory(ctx context.Context, rw http.Respons
 
 	// delete the image from db if file exists
 	if _, ok := file.File["icon"]; ok {
-		magicimage.DeleteFolderAndFile(fmt.Sprintf("static/icon-categories/%s", category.Icon))
-		magic.SaveImages(100, 100, "static/icon-categories", true)
+		magicimage.DeleteFolderAndFile(fmt.Sprintf("/app/static/icon-categories/%s", category.Icon))
+		magic.SaveImages(100, 100, "/app/static/icon-categories", true)
 		payload.Icon = magic.FileNames[0]
 	}
 
@@ -138,7 +138,7 @@ func (uc *CategoriesUsecase) DeleteCategoryById(ctx context.Context, rw http.Res
 	}
 
 	// delete into db
-	magicimage.DeleteFolderAndFile(fmt.Sprintf("static/icon-categories/%s", category.Icon))
+	magicimage.DeleteFolderAndFile(fmt.Sprintf("/app/static/icon-categories/%s", category.Icon))
 	uc.categoriesRepo.DeleteCategoryById(ctx, category.Id)
 
 	response.WriteJSONResponse(rw, 200, nil, map[string]interface{}{
