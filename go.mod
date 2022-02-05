@@ -3,7 +3,7 @@ module github.com/IndominusByte/learn-go-restful-api
 go 1.17
 
 require (
-	github.com/creent-production/cdk-go v1.0.1
+	github.com/creent-production/cdk-go v1.0.2
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/gomodule/redigo v1.8.8
