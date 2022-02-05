@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/config"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/auth"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
+	"github.com/creent-production/cdk-go/auth"
+	"github.com/creent-production/cdk-go/response"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/jwtauth"
 	"github.com/gomodule/redigo/redis"

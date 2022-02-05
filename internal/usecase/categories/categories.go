@@ -7,9 +7,9 @@ import (
 	"net/http"
 
 	categoriesentity "github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/validation"
-	"github.com/IndominusByte/magicimage"
+	"github.com/creent-production/cdk-go/magicimage"
+	"github.com/creent-production/cdk-go/response"
+	"github.com/creent-production/cdk-go/validation"
 )
 
 type CategoriesUsecase struct {

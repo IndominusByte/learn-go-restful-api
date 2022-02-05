@@ -6,8 +6,8 @@ import (
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/config"
 	endpoint_http "github.com/IndominusByte/learn-go-restful-api/internal/endpoint/http"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/auth"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/mail"
+	"github.com/creent-production/cdk-go/auth"
+	"github.com/creent-production/cdk-go/mail"
 	categoriesrepo "github.com/IndominusByte/learn-go-restful-api/internal/repo/categories"
 	categoriesusecase "github.com/IndominusByte/learn-go-restful-api/internal/usecase/categories"
 	"github.com/go-chi/chi/v5"

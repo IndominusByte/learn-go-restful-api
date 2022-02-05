@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/encryption"
+	"github.com/creent-production/cdk-go/encryption"
 )
 
 type gsmData struct {

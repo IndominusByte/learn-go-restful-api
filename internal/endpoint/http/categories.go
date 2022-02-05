@@ -7,10 +7,10 @@ import (
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/constant"
 	categoriesentity "github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/auth"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/parser"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/validation"
+	"github.com/creent-production/cdk-go/auth"
+	"github.com/creent-production/cdk-go/parser"
+	"github.com/creent-production/cdk-go/response"
+	"github.com/creent-production/cdk-go/validation"
 	"github.com/go-chi/chi/v5"
 	"github.com/gomodule/redigo/redis"
 )

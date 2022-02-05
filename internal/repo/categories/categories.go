@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	categoriesentity "github.com/IndominusByte/learn-go-restful-api/internal/entity/categories"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/pagination"
+	"github.com/creent-production/cdk-go/pagination"
 	"github.com/jmoiron/sqlx"
 )
 

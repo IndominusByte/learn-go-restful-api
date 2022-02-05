@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/IndominusByte/learn-go-restful-api/internal/config"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/mail"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/queue"
-	"github.com/IndominusByte/learn-go-restful-api/internal/pkg/response"
+	"github.com/creent-production/cdk-go/mail"
+	"github.com/creent-production/cdk-go/queue"
+	"github.com/creent-production/cdk-go/response"
 	"github.com/go-chi/chi/v5"
 )
 
